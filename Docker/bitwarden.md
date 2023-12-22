@@ -11,4 +11,4 @@ docker pull vaultwarden/server:latest
 docker run -d --name vaultwarden -v /vw-data/:/data/ -p 85:80 vaultwarden/server:latest
 ```
 
-Link bitwarden - Official https://hub.docker.com/r/vaultwarden/server
+[Link bitwarden - Official](https://hub.docker.com/r/vaultwarden/server)

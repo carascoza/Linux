@@ -39,9 +39,9 @@ Date: 15/12/2023
 >[!NOTE]
 > Apos criar o container nginx proxy manager logar com o email cadastrado e senha abaixo.
 
-Email:    admin@example.com
-
+```powershell
+Email: admin@example.com
 Password: changeme
-
-Site oficial: https://nginxproxymanager.com/setup/#running-on-raspberry-pi-arm-devices
+```
+[Site oficial:](https://nginxproxymanager.com/setup/#running-on-raspberry-pi-arm-devices) 
 

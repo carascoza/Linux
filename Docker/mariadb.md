@@ -40,4 +40,4 @@ mysql -u root -p -h 192.168.1.xxx
 CREATE DATABASE homeassistant;
 ```
 
-Link Mariadb - Official Image | Docker Hub https://hub.docker.com/_/mariadb
+[Link Mariadb - Official Image | Docker Hub](https://hub.docker.com/_/mariadb)

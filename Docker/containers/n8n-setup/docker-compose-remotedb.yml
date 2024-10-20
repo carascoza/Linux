@@ -1,0 +1,76 @@
+version: "3.9"
+
+volumes:
+  n8n_storage:
+  redis_storage:
+
+x-shared: &shared
+  restart: always
+  build: .
+  environment:
+    NODE_ENV: "production"
+    N8N_HOST: "${HOST}"
+    N8N_PORT: "5678"
+    N8N_PROTOCOL: "https"
+    N8N_ENCRYPTION_KEY: "${N8N_ENCRYPTION_KEY}"
+    EXECUTIONS_DATA_SAVE_ON_ERROR: "none"
+    EXECUTIONS_DATA_SAVE_ON_SUCCESS: "none"
+    WEBHOOK_URL: "https://${HOST}/"
+    GENERIC_TIMEZONE: "${GENERIC_TIMEZONE}"
+    DB_TYPE: "postgresdb"
+    DB_POSTGRESDB_HOST: "${POSTGRES_HOST}"
+    DB_POSTGRESDB_PORT: "${POSTGRES_PORT}"
+    DB_POSTGRESDB_DATABASE: "${POSTGRES_DB}"
+    DB_POSTGRESDB_USER: "${POSTGRES_USER}"
+    DB_POSTGRESDB_PASSWORD: "${POSTGRES_PASSWORD}"
+    DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED: "false"
+    EXECUTIONS_MODE: "queue"
+    QUEUE_BULL_REDIS_HOST: "redis"
+    QUEUE_BULL_REDIS_PASSWORD: "${REDIS_PASSWORD}"
+    QUEUE_HEALTH_CHECK_ACTIVE: "true"
+  depends_on:
+    redis:
+      condition: service_healthy
+
+services:
+  browserless:
+    image: browserless/chrome:latest
+    restart: always
+    environment:
+      DEBUG: "browserless:*"
+      MAX_CONCURRENT_SESSIONS: "5"
+      CONNECTION_TIMEOUT: "60000"
+      MAX_QUEUE_LENGTH: "20"
+      # PREBOOT_CHROME: "true"
+      DEMO_MODE: "false"
+      ENABLE_DEBUGGER: "false"
+      TOKEN: "${BROWSERLESS_TOKEN}"
+      PORT: "3000"
+      WORKSPACE_DELETE_EXPIRED: "true"
+      WORKSPACE_EXPIRE_DAYS: "1"
+
+  redis:
+    image: redis:latest
+    restart: always
+    command: "redis-server --requirepass ${REDIS_PASSWORD}"
+    volumes:
+      - "redis_storage:/data"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  n8n:
+    <<: *shared
+    restart: always
+    volumes:
+      - "n8n_storage:/home/node/.n8n"
+    ports:
+      - "80:5678"
+
+  n8n-worker:
+    <<: *shared
+    command: "/bin/sh -c 'sleep 5; n8n worker'"
+    depends_on:
+      - "n8n"

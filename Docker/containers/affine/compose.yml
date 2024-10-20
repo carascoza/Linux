@@ -1,0 +1,18 @@
+services:
+  affine:
+    image: ghcr.io/toeverything/affine-self-hosted:latest
+    restart: unless-stopped
+    ports:
+      - "8090:80"
+      - "8043:443"
+    volumes:
+      - affine_data:/var/lib/affine
+    networks:
+      - docker_default
+
+networks:
+  docker_default:
+    external: true
+
+volumes:
+  affine_data:

@@ -1,0 +1,16 @@
+services:
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run --token <digite key>
+    restart: unless-stopped
+    networks:
+      - docker_default
+    volumes:
+      - cloudflare_data:/etc/cloudflared
+
+networks:
+  docker_default:
+    external: true
+
+volumes:
+  cloudflare_data:

@@ -1,0 +1,21 @@
+services:
+  node-red:
+    image: nodered/node-red:latest
+    container_name: node-red
+    restart: unless-stopped
+    ports:
+      - "1880:1880"
+    networks:
+      - docker_default
+    volumes:
+      - node_red_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - TZ=America/Sao_Paulo
+
+volumes:
+  node_red_data:
+
+networks:
+  docker_default:
+    external: true

@@ -13,7 +13,6 @@ curl -o setup-repos.sh https://raw.githubusercontent.com/webmin/webmin/master/se
 
 #executando o script de adicionar o repositório
 sudo sh setup-repos.sh
-    Setup repository? (y/N) y <Enter>
 #03_ Instalando o Webmin
 
 #atualizando as lista do apt com o novo repositório do Webmin

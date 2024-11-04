@@ -1,1 +1,7 @@
-docker-compose exec ollama ollama pull llama2
+#instalar modelo
+docker-compose exec ollama ollama pull llama3.2
+
+#Liste os modelos disponíveis:
+docker-compose exec ollama ollama list
+#Remova o modelo Llama2:
+docker-compose exec ollama ollama rm llama3.2

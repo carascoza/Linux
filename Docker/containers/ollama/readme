@@ -1,5 +1,8 @@
-#instalar modelo
+#instalar modelo llama3.2 3B
 docker-compose exec ollama ollama pull llama3.2
+
+#instalar modelo llama3.1:8b 8B
+docker-compose exec ollama ollama pull llama3.1:8b
 
 #Liste os modelos disponíveis:
 docker-compose exec ollama ollama list

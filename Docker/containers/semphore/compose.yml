@@ -1,0 +1,39 @@
+services:
+    semphore_db:
+        image: mysql:8
+        environment:
+            MYSQL_USER: semphore
+            MYSQL_PASSWORD: semphore
+            MYSQL_DATABASE: semphore
+            MYSQL_RANDOM_ROOT_PASSWORD: yes
+        volumes:
+            - semaphore_mysql:/var/lib/mysql
+        networks:
+            - docker_default
+    semaphore:
+        ports:
+            - 3010:3000
+        image: semaphoreui/semaphore:v2.11.2
+        environment:
+            SEMAPHORE_DB_DIALECT: mysql
+            SEMAPHORE_DB_HOST: semphore_db
+            SEMAPHORE_DB_NAME: semphore
+            SEMAPHORE_DB_USER: semphore
+            SEMAPHORE_DB_PASS: semphore
+            SEMAPHORE_ADMIN: admin
+            SEMAPHORE_ADMIN_PASSWORD: admin
+            SEMAPHORE_ADMIN_NAME: admin
+            SEMAPHORE_ADMIN_EMAIL: admin@admin.com
+        volumes:
+            - semaphore_data:/var/lib/semaphore
+            - semaphore_config:/etc/semaphore
+            - semaphore_tmp:/tmp/semaphore
+        networks:
+            - docker_default
+volumes:
+    semaphore_data:
+    semaphore_config:
+    semaphore_tmp:
+    semaphore_mysql:
+networks:
+    docker_default:

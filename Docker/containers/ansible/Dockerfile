@@ -5,10 +5,11 @@ FROM python:3.9-slim
 ENV ANSIBLE_VERSION=2.10.7
 
 # Atualiza os pacotes e instala as dependências necessárias
-RUN apt-get update && \
-    apt-get install -y sshpass && \
-    pip install ansible==$ANSIBLE_VERSION && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get update && 
+RUN python3 -m pip install --user ansible
+RUN python3 -m pip install --user ansible-core
+RUN python3 -m pip install --user ansible-core==2.12.3
+RUN python3 -m pip install --upgrade --user ansible
 
 # Adiciona um volume para os arquivos do Ansible
 VOLUME /ansible
@@ -17,4 +18,4 @@ VOLUME /ansible
 WORKDIR /ansible
 
 # Define o ponto de entrada para o contêiner
-ENTRYPOINT ["ansible-playbook"]
+#ENTRYPOINT ["ansible-playbook"]

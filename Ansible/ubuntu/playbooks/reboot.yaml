@@ -1,0 +1,10 @@
+---
+- hosts: all
+  tasks:
+    - name: Reiniciar a máquina
+      become: yes
+      command: /sbin/reboot
+      async: 1
+      poll: 0
+      ignore_errors: true
+

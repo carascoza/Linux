@@ -6,6 +6,7 @@ services:
             MYSQL_PASSWORD: semphore
             MYSQL_DATABASE: semphore
             MYSQL_RANDOM_ROOT_PASSWORD: yes
+        restart: unless-stopped
         volumes:
             - semaphore_mysql:/var/lib/mysql
         networks:
@@ -24,6 +25,7 @@ services:
             SEMAPHORE_ADMIN_PASSWORD: admin
             SEMAPHORE_ADMIN_NAME: admin
             SEMAPHORE_ADMIN_EMAIL: admin@admin.com
+        restart: unless-stopped
         volumes:
             - semaphore_data:/var/lib/semaphore
             - semaphore_config:/etc/semaphore

@@ -6,10 +6,10 @@ ENV ANSIBLE_VERSION=2.10.7
 
 # Atualiza os pacotes e instala as dependências necessárias
 RUN apt-get update && 
-RUN python3 -m pip install --user ansible
-RUN python3 -m pip install --user ansible-core
-RUN python3 -m pip install --user ansible-core==2.12.3
-RUN python3 -m pip install --upgrade --user ansible
+RUN sudo apt install software-properties-common
+RUN sudo add-apt-repository --yes --update ppa:ansible/ansible
+RUN sudo apt install ansible
+
 
 # Adiciona um volume para os arquivos do Ansible
 VOLUME /ansible

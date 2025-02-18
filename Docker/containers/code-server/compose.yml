@@ -1,4 +1,3 @@
-version: "2.1"
 services:
   code-server:
     image: lscr.io/linuxserver/code-server:latest
@@ -14,7 +13,15 @@ services:
       - PROXY_DOMAIN=code-server.my.domain #optional
       - DEFAULT_WORKSPACE=/config/workspace #optional
     volumes:
-      - /path/to/appdata/config:/config
+      - code_server_config:/config
     ports:
       - 8090:8443
     restart: unless-stopped
+    networks:
+      - docker_default
+volumes:
+  code_server_config:
+  
+networks:
+  docker_default:
+    external: true

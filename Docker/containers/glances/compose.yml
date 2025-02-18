@@ -1,4 +1,3 @@
-version: "3.5"
 services:
   glances:
     container_name: glances
@@ -12,4 +11,11 @@ services:
       - GLANCES_OPT=--webserver
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /var/docker/glances:/glances/conf
+      - glances_data:/glances/conf
+    networks:
+      - docker_default
+volumes:
+  glances_data:
+networks:
+  docker_default:
+    external: true

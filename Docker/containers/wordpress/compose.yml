@@ -1,0 +1,32 @@
+services:
+  db:
+    image: mysql
+    volumes:
+      - wordpress_db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: macmac13
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    networks:
+      - docker_default
+  wordpress:
+    image: wordpress:latest
+    ports:
+      - "8090:80"
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+    volumes:
+      - wordpress_data:/var/www/html
+    networks:
+      - docker_default
+volumes:
+    wordpress_db_data:
+    wordpress_data:
+networks:
+  docker_default:
+    external: true

@@ -1,4 +1,3 @@
-version: '2'
 services:
   unms:
     image: oznu/unms:latest  # use "armhf" instead of "latest" for arm devices
@@ -10,4 +9,11 @@ services:
     environment:
       - TZ=America/Sao_Paulo
     volumes:
-      - ./unms_config:/_data
+      - unms_config:/_data
+    networks:
+      - docker_default
+volumes:
+  unms_config:
+networks:
+  docker_default:
+    external: true

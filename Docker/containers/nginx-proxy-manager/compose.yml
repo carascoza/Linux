@@ -1,4 +1,3 @@
-version: "3"
 services:
   app:
     image: 'jc21/nginx-proxy-manager:latest'
@@ -19,11 +18,12 @@ services:
       # Uncomment this if IPv6 is not enabled on your host
       # DISABLE_IPV6: 'true'
     volumes:
-      - ./data:/data
-      - ./letsencrypt:/etc/letsencrypt
+      - nginx-proxy-manager_data:/data
+      - nginx-proxy-manager_letsencrypt:/etc/letsencrypt
+    networks:
+      - docker_default
     depends_on:
       - db
-
   db:
     image: 'jc21/mariadb-aria:latest'
     restart: unless-stopped
@@ -33,4 +33,13 @@ services:
       MYSQL_USER: 'npm'
       MYSQL_PASSWORD: 'npm'
     volumes:
-      - ./data/mysql:/var/lib/mysql
+      - nginx-proxy-manager_mysql:/var/lib/mysql
+    networks:
+      - docker_default
+volumes:
+  nginx-proxy-manager_data:
+  nginx-proxy-manager_letsencrypt:
+  nginx-proxy-manager_mysql:
+networks:
+  docker_default:
+    external: true

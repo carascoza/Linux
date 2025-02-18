@@ -1,0 +1,22 @@
+services:
+  wallos:
+    container_name: wallos
+    image: bellamy/wallos:latest
+    ports:
+      - "8282:80/tcp"
+    environment:
+      TZ: 'America/Sao_Paulo'
+    # Volumes store your data between container upgrades
+    volumes:
+      - wallos_db:/var/www/html/db
+      - wallos_logos:/var/www/html/images/uploads/logos
+    restart: unless-stopped
+    networks:
+      - docker_default
+volumes:
+  wallos_db:
+  wallos_logos:
+  
+networks:
+  docker_default:
+    external: true

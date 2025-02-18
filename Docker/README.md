@@ -5,34 +5,32 @@ Author: Carascoza
 Date: 15/12/2023
 ---
 
-### [![Total size](https://packagephobia.com/badge?p=@material-design-icons/font)](https://badge-size.herokuapp.com/macarascoza/Docker/composer)
+### [![Total size](https://packagephobia.com/badge?p=@material-design-icons/font)](https://badge-size.herokuapp.com/macarascoza/Docker/containers)
 
 # Tutorial: Ambiente de Docker.
 
 >[!IMPORTANT]
->Stacks e scripts em desenvolvimento para Docker.
+>Criação de arquivos compose.yml e scripts para Docker.
+>Copiar Repositório com os passos abaixo:
+>Criar network padrão containers
 
-[mariadb](./Docker/mariadb.md).
+# Clonar Repositório
+```powershell
+git clone https://github.com/carascoza/Linux
+```
+# Criar network padrão containers
+```powershell
+docker network create --driver bridge docker_default
+```
+# Criar containers com compose
+ ```powershell
+docker compose up -d
+```
 
-[uptime-kuma-install](./Docker/uptime-kuma-install.md).
-
-## Tabela de Docker composer
-
-| Container           | Descrição                | Link                                                          |
-|:-----------         |    :---------:           |:----                                                          |
-| code-server         | Vscode server web        |[ code-server.yml](./composer/code-server.yml)                 |
-| dashy               | Dasboard                 |[ dashy.yml](./composer/dashy.yml)                             |
-| homarr              | Dashboard                |[ homarr.yml](./composer/homarr.yml)                           |
-| dozzle              | Monitorar container      |[ dozzle.yml](./composer/dozzle.yml)                           |
-| glances             | Monitorar linux          |[ glances.yml](./composer/glances.yml)                         |
-| uptime-kuma         | Monitorar services\URLs  |[ uptime-kuma.yml](./composer/uptime-kuma.yml)                 |
-| pialert             | DNS Server               |[ pialert.yml](./composer/pialert.yml)                         |
-| grafana             | Graficos                 |[ grafana.yml](./composer/grafana.yml)                         |
-| nginx-proxy-manager | Proxy Manager            |[ nginx-proxy-manager.yml](./composer/nginx-proxy-manager.yml) |
-| radarr              | Servico legendas         |[ radarr.yml](./composer/radarr.yml)                           |
-| unms                | Gerenciado Ubiquiti UNMS |[ unms.yml](./composer/unms.yml)                               |
-| watchtower          | Atualizar containers     |[ watchtower.yml](./composer/watchtower.yml)                   |
-| wordpress           | Site pessoal             |[ wordpress.yml](./composer/wordpress.yml)                     |
+# Remover containers com compose
+ ```powershell
+docker compose down
+```
 
 ## nginx proxy manager
 

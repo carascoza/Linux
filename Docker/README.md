@@ -12,7 +12,6 @@ Date: 15/12/2023
 >[!IMPORTANT]
 >Criação de arquivos compose.yml e scripts para Docker.
 >Copiar Repositório com os passos abaixo:
->Criar network padrão containers
 
 # Clonar Repositório
 ```powershell

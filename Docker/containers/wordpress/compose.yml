@@ -1,32 +1,69 @@
 services:
-  db:
-    image: mysql
+  mariadb:
+    image: docker.io/bitnami/mariadb:latest
     volumes:
-      - wordpress_db_data:/var/lib/mysql
-    restart: always
+      - mariadb_data:/bitnami/mariadb
     environment:
-      MYSQL_ROOT_PASSWORD: macmac13
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=bn_wordpress
+      - MARIADB_DATABASE=bitnami_wordpress
+    restart: unless-stopped
     networks:
       - docker_default
   wordpress:
-    image: wordpress:latest
+    image: docker.io/bitnami/wordpress-nginx:latest
     ports:
-      - "8090:80"
-    restart: always
-    environment:
-      WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: wordpress
+      - '08001:8080'
+      - '44301:8443'
     volumes:
-      - wordpress_data:/var/www/html
+      - wordpress_data:/bitnami/wordpress
+    depends_on:
+      - mariadb
+    environment:
+      # Variáveis de BD
+      - ALLOW_EMPTY_PASSWORD=yes
+      - WORDPRESS_DATABASE_HOST=mariadb
+      - WORDPRESS_DATABASE_PORT_NUMBER=3306
+      - WORDPRESS_DATABASE_USER=bn_wordpress
+      - WORDPRESS_DATABASE_NAME=bitnami_wordpress
+#      # Variáveis de NGINX
+#      - NGINX_HTTP_PORT_NUMBER=8080
+#      - NGINX_HTTPS_PORT_NUMBER=8443
+#      - NGINX_ENABLE_ABSOLUTE_REDIRECT=no
+#      - NGINX_ENABLE_PORT_IN_REDIRECT=no
+      # Variávies de login
+      - WORDPRESS_USERNAME=usuario-administrador
+      - WORDPRESS_PASSWORD=senha-do-usuario-administrador
+      - WORDPRESS_EMAIL=email-do-usuario-administrador@gmail.com
+      - WORDPRESS_FIRST_NAME=Administrador
+      - WORDPRESS_LAST_NAME=seu_Name
+      - WORDPRESS_BLOG_NAME=Blog Name
+      # Variáveis de PHP
+      - PHP_MEMORY_LIMIT=512M
+      - PHP_UPLOAD_MAX_SIZE=64M
+      - PHP_POST_MAX_SIZE=64M
+      - PHP_UPLOAD_MAX_FILESIZE=64M
+      - PHP_MAX_EXECUTION_TIME=360
+      - PHP_INPUT_TIME=1000
+      - LANG=pt_BR.UTF-8
+      - TZ=America/Sao_Paulo
+#      # Variáveis Extras do WP
+#      - WORDPRESS_EXTRA_INSTALL_ARGS=
+#      - WORDPRESS_EXTRA_CLI_ARGS=
+#      - WORDPRESS_EXTRA_WP_CONFIG_CONTENT=
+#      # Variáveis de SMTP
+#      - WORDPRESS_SMTP_HOST: SMTP host.
+#      - WORDPRESS_SMTP_PORT: SMTP port.
+#      - WORDPRESS_SMTP_USER: SMTP account user.
+#      - WORDPRESS_SMTP_PASSWORD: SMTP account password.
+      - WORDPRESS_ENABLE_HTTPS=yes      # Whether to use HTTPS by default
+      - WORDPRESS_ENABLE_REVERSE_PROXY=yes  # Enable WordPress support for reverse proxy headers
+    restart: unless-stopped
     networks:
       - docker_default
 volumes:
-    wordpress_db_data:
-    wordpress_data:
+  mariadb_data:
+  wordpress_data:
 networks:
   docker_default:
     external: true

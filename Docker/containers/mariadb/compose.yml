@@ -1,0 +1,35 @@
+services:
+  db :
+    image: mariadb:latest
+    container_name: my-mariadb
+    restart: always
+    environment:
+      MARIADB_USER: user_db
+      MARIADB_PASSWORD: mariadb
+      MARIADB_ROOT_PASSWORD: mariadb
+      MYSQL_DATABASE: my_database
+    volumes:
+      - mariadb_data:/var/lib/mysql/data/
+      - mariadb_logs:/var/lib/mysql/logs/
+    networks:
+      - docker_default
+    ports:
+      - 3306:3306
+  phpmyadmin:
+    image: phpmyadmin:latest
+    restart: always
+    ports:
+      - 8088:80
+    environment:
+      - PMA_ARBITRARY=1 
+    networks:
+      - docker_default
+    volumes:
+      - phpmyadmin_data:/var/www/html
+volumes:
+  mariadb_data:
+  mariadb_logs:
+  phpmyadmin_data:
+networks:
+  docker_default:
+    external: true

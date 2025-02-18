@@ -1,0 +1,15 @@
+services:
+  server:
+      container_name: vaultwarden
+      volumes:
+          - vaultwarden_data:/data/
+      ports:
+          - 85:80
+      image: vaultwarden/server:latest
+      networks:
+        - docker_default
+volumes:
+  vaultwarden_data:
+networks:
+  docker_default:
+    external: true

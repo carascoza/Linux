@@ -1,0 +1,29 @@
+services:
+  gitlab:
+    image: gitlab/gitlab-ee:latest
+    container_name: gitlab
+    restart: unless-stopped
+    hostname: 'localhost'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'https://<ip-host>'
+        # Ajuste conforme necessário, por exemplo, SMTP configuration
+    ports:
+      - "81:80"
+      - "7443:443"
+      - "2222:22"
+    networks:
+      - docker_default
+    volumes:
+      - gitlab_config:/etc/gitlab
+      - gitlab_logs:/var/log/gitlab
+      - gitlab_data:/var/opt/gitlab
+
+networks:
+  docker_default:
+    external: true
+
+volumes:
+  gitlab_config:
+  gitlab_logs:
+  gitlab_data:

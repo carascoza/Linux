@@ -1,0 +1,28 @@
+services:
+  vault:
+    image: hashicorp/vault:1.17
+    container_name: vault
+    cap_add:
+      - IPC_LOCK  # Lock memory to prevent sensitive data from swapping to disk
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: myroot  # Root token for dev mode
+      VAULT_ADDR: http://localhost:8200  # Set the Vault address
+    ports:
+      - "8200:8200"  # Expose Vault on port 8200
+    restart: unless-stopped
+    networks:
+      - docker_default
+    command: server -dev  # Start Vault in development mode
+    volumes:
+      - vault-data:/vault/file  # For future use, persistent storage in production
+    healthcheck:
+      test: ["CMD", "vault", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+networks:
+  docker_default:
+    external: true
+volumes:
+  vault-data:

@@ -1,1 +1,3 @@
 https://github.com/jersonmartinez/docker-compose-influxdb-telegraf-grafana
+https://www.docker.com/
+https://hub.docker.com/

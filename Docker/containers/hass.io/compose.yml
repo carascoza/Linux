@@ -1,0 +1,24 @@
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: ghcr.io/home-assistant/home-assistant:stable
+    restart: unless-stopped
+    privileged: true
+    volumes:
+      - config:/config
+      - localtime:/etc/localtime:ro
+      - run:/run/dbus:ro
+    environment:
+      - TZ=America/Sao_Paulo
+    networks:
+      - docker_default
+    ports:
+        - 8123:8123
+networks:
+  docker_default:
+    external: true
+
+volumes:
+  config:
+  localtime:
+  run:

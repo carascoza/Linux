@@ -1,0 +1,25 @@
+services:
+  mealie:
+    image: ghcr.io/mealie-recipes/mealie:nightly
+    container_name: mealie
+    restart: always
+    ports:
+        - "9925:9000" # 
+    deploy:
+      resources:
+        limits:
+          memory: 300M # 
+    volumes:
+      - mealie-data:/app/data/
+    environment:
+      # Set Backend ENV Variables Here
+      ALLOW_SIGNUP: true
+      PUID: 1000
+      PGID: 1000
+      TZ: America/Sao_Paulo
+      MAX_WORKERS: 1
+      WEB_CONCURRENCY: 1
+      BASE_URL: http://ip
+
+volumes:
+  mealie-data:

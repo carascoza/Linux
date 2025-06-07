@@ -1,0 +1,26 @@
+---
+services:
+  duplicati:
+    image: lscr.io/linuxserver/duplicati:latest
+    container_name: duplicati
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Brazil
+      - SETTINGS_ENCRYPTION_KEY=<key-password>
+      - DUPLICATI__WEBSERVICE_PASSWORD=<password>
+    volumes:
+      - data:/data
+      - /path/to/backups:/backups
+      - /mnt/share:/source
+    ports:
+      - 8200:8200
+    restart: unless-stopped
+    networks:
+      - docker_default
+volumes:
+  data:
+
+networks:
+  docker_default:
+    external: true

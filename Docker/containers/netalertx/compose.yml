@@ -1,0 +1,17 @@
+services:
+  netalertx:
+    image: ghcr.io/jokob-sk/netalertx:latest
+    container_name: netalertx
+    network_mode: host
+    restart: unless-stopped
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: America/Sao_Paulo 
+      PORT: 20211
+    volumes:
+      - ./config:/app/config
+      - ./db:/app/db
+    tmpfs:
+      - /app/api
+    # remove --rm equivalent is not supported directly in Compose
